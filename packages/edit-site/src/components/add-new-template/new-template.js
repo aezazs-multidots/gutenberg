@@ -48,7 +48,7 @@ export default function NewTemplate( { postType } ) {
 		} ),
 		[]
 	);
-	const { throwingSaveEntityRecord } = useDispatch( coreStore );
+	const { saveEntityRecord } = useDispatch( coreStore );
 	const { createErrorNotice } = useDispatch( noticesStore );
 
 	async function createTemplate( { slug } ) {
@@ -57,7 +57,7 @@ export default function NewTemplate( { postType } ) {
 				slug,
 			} );
 
-			const template = await throwingSaveEntityRecord(
+			const template = await saveEntityRecord(
 				'postType',
 				'wp_template',
 				{
@@ -66,7 +66,8 @@ export default function NewTemplate( { postType } ) {
 					slug: slug.toString(),
 					status: 'publish',
 					title,
-				}
+				},
+				{ throwOnError: true }
 			);
 
 			// Navigate to the created template editor.
